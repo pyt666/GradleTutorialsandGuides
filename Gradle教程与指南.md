@@ -74,19 +74,11 @@ https://gradle.com/s/czajmbyg73t62
 
 使用版本Gradle 2.x-5.x的用户，你需要在根构建脚本中添加 com.gradle.build-scan 插件。使用版本Gradle 6.0的用户，你需要在你的 settings 脚本中使用 com.gradle.enterprise 插件。
 
-根据
-
-[Gradle构建扫描插件文档]: https://docs.gradle.com/enterprise/gradle-plugin/?_ga=2.41519714.1567320297.1596098791-192503258.1592536201#applying_the_plugin	"Gradle构建扫描插件文档"
-
-，你可以在自己的项目中使用构建扫描插件。
+根据[Gradle构建扫描插件文档]( https://docs.gradle.com/enterprise/gradle-plugin/?_ga=2.41519714.1567320297.1596098791-192503258.1592536201#applying_the_plugin)，你可以在自己的项目中使用构建扫描插件。
 
 ### 1.5 接受许可协议
 
-为了发布构架扫描到
-
-[https://scans.gradle.com]: https://scans.gradle.com/?_ga=2.210497493.1567320297.1596098791-192503258.1592536201	"https://scans.gradle.com"
-
-上，你需要接受许可协议。在发布时这一步骤可以通过命令行即时实现，但也可以通过添加一下部分在你的Gradle构建文件中实现定制化。
+为了发布构架扫描到[https://scans.gradle.com](https://scans.gradle.com/?_ga=2.210497493.1567320297.1596098791-192503258.1592536201) 上，你需要接受许可协议。在发布时这一步骤可以通过命令行即时实现，但也可以通过添加一下部分在你的Gradle构建文件中实现定制化。
 
 ```groovy
 gradleEnterprise {
@@ -97,9 +89,7 @@ gradleEnterprise {
 }
 ```
 
-在buildScan代码块中你可以配置插件，在这里你需要设置两个必要参数来接受许可协议。还有其他参数可以设置，详情请查看
-
-[构建扫描用户手册]: https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201	"构建扫描用户手册"
+在buildScan代码块中你可以配置插件，在这里你需要设置两个必要参数来接受许可协议。还有其他参数可以设置，详情请查看[构建扫描用户手册]( https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201)
 
 ### 1.6 发布一份构建扫描
 
@@ -126,17 +116,9 @@ https://gradle.com/s/uniqueid
 
 ### 1.8 对所有构建使能构建扫描（可选）
 
-你可以通过使用
+你可以通过使用[Gradle初始化脚本](https://docs.gradle.com/enterprise/gradle-plugin/?_ga=2.214533463.1567320297.1596098791-192503258.1592536201#many-project)来避免对所有构建添加插件和许可协议。
 
-[Gradle初始化脚本]: https://docs.gradle.com/enterprise/gradle-plugin/?_ga=2.214533463.1567320297.1596098791-192503258.1592536201#many-projects	"Gradle初始化脚本"
-
-来避免对所有构建添加插件和许可协议。
-
-你还可以向脚本添加其他功能，比如基于什么条件发布扫描信息。详情可见
-
-[构建扫描用户手册]: https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201	"构建扫描用户手册"
-
-。
+你还可以向脚本添加其他功能，比如基于什么条件发布扫描信息。详情可见[构建扫描用户手册](https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201 )。
 
 ### 1.9 总结
 
@@ -148,11 +130,7 @@ https://gradle.com/s/uniqueid
 
 ### 1.10 下一步
 
-其他信息可以在
-
-[构建扫描用户手册]: https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201	"构建扫描用户手册"
-
-上面看到。
+其他信息可以在[构建扫描用户手册](https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201 )上面看到。
 
 ## 2.创建一个新的Gradle构建（create a new Gradle build）
 
@@ -220,11 +198,7 @@ gradle初始化可以生成不同类型的项目，甚至知道如何将简单�
 
 Gradle通过Groovy或者基于Kotlin的DSL提供的API接口用来创建和配置任务。一个项目包含了一组任务，每个任务都有一些基础的操作。
 
-Gradle提供了一个任务库，你可以在自己的项目中配置这些任务。比如，有一个叫做Copy的核心任务，这个任务的作用是将文件从一个位置复制到另一个位置。这个Copy任务非常有用（具体请
-
-[查看文档]: https://docs.gradle.org/4.10.3/dsl/org.gradle.api.tasks.Copy.html	"查看文档"
-
-），但是这里，再一次，让我们保持简洁性。按以下步骤执行操作：
+Gradle提供了一个任务库，你可以在自己的项目中配置这些任务。比如，有一个叫做Copy的核心任务，这个任务的作用是将文件从一个位置复制到另一个位置。这个Copy任务非常有用（具体请[查看文档](https://docs.gradle.org/4.10.3/dsl/org.gradle.api.tasks.Copy.html)），但是这里，再一次，让我们保持简洁性。按以下步骤执行操作：
 
 #### 2.3.1 创建一个src目录
 
@@ -296,11 +270,7 @@ BUILD SUCCESSFUL in 0s
 
 ### 2.5 查看并调试构建
 
-让我们来看看在新项目中Gradle还能做什么。也可以查看
-
-[命令行接口全参考]: https://docs.gradle.org/4.10.3/userguide/command_line_interface.html	"命令行接口全参考"
-
-。
+让我们来看看在新项目中Gradle还能做什么。也可以查看[命令行接口全参考](https://docs.gradle.org/4.10.3/userguide/command_line_interface.html)。
 
 #### 2.5.1 发现可使用的任务
 
@@ -371,23 +341,5 @@ Gradle也提供了丰富的，基于页面的构建查看，叫做构建扫描�
 
 具体可参考1.6
 
-通过使用--scan选项或者在项目中使用构建扫描插件，你就可以免费在
+通过使用--scan选项或者在项目中使用构建扫描插件，你就可以免费在[scans.gradle.com](https://scans.gradle.com/?_ga=2.246928964.1574540686.1596420546-192503258.1592536201)中创建构架扫描了。发布构建扫描结果到scans.gradle.com，并将结果数据传输到Gradle的服务器上。
 
-[scans.gradle.com]: https://scans.gradle.com/?_ga=2.246928964.1574540686.1596420546-192503258.1592536201	"scans.gradle.com"
-
-中创建构架扫描了。发布构建扫描结果到scans.gradle.com，并将结果数据传输到Gradle的服务器上。[
-](javascript:void(0);) 
-
-通用领域
-
-生物医药
-
-
-
-To keep your data on your own servers, check out Gradle Enterprise.
-
-要将数据保存在自己的服务器上，请查看
-
-[Gradle Enterprise]: https://gradle.com/enterprise?_ga=2.75348690.1574540686.1596420546-192503258.1592536201	"Gradle Enterprise"
-
-。
