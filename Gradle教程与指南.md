@@ -74,11 +74,11 @@ https://gradle.com/s/czajmbyg73t62
 
 使用版本Gradle 2.x-5.x的用户，你需要在根构建脚本中添加 com.gradle.build-scan 插件。使用版本Gradle 6.0的用户，你需要在你的 settings 脚本中使用 com.gradle.enterprise 插件。
 
-通过
+根据
 
 [Gradle构建扫描插件文档]: https://docs.gradle.com/enterprise/gradle-plugin/?_ga=2.41519714.1567320297.1596098791-192503258.1592536201#applying_the_plugin	"Gradle构建扫描插件文档"
 
-你可以在自己的项目中使用构建扫描插件。
+，你可以在自己的项目中使用构建扫描插件。
 
 ### 1.5 接受许可协议
 
@@ -153,3 +153,241 @@ https://gradle.com/s/uniqueid
 [构建扫描用户手册]: https://docs.gradle.com/build-scan-plugin/?_ga=2.117539145.1567320297.1596098791-192503258.1592536201	"构建扫描用户手册"
 
 上面看到。
+
+## 2.创建一个新的Gradle构建（create a new Gradle build）
+
+不论项目类型，学习Gradle任务如何在任意项目上工作。查看可使用的任务，生成一个封装包（wrapper），从一个位置复制数据到另一个位置，添加插件，等等。
+
+跟随以下指南，你将会创建一个小的Gradle项目，使用到一些基础的Gradle命令，并找到如何使用Gradle管理项目的感觉。
+
+### 2.1. 需要什么
+
+#### 2.1.1 大约11分钟
+
+#### 2.1.2 一个终端应用
+
+#### 2.1.3 Java环境，版本为8以上
+
+#### 2.1.4 Gradle包，版本4.10.3以上
+
+### 2.2 初始化一个项目
+
+首先，创建一个新的目录用来放我们的项目。
+
+现在我们可以使用Gradle的初始化命令来生成一个简单的项目。通过研究生成的所有文件，你会清楚到底发生了什么。
+
+```
+❯ gradle init 
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+BUILD SUCCESSFUL in 3s
+2 actionable tasks: 2 executed
+```
+
+命令行应该显示“BUILD SUCCESSFUL”并且生成下面的“空”项目。如果没有，请确保Gradle已经正确安装，并且你已经正确配置了JAVA_HOME环境。
+
+以下是Gradle生成的文件以及文件夹：
+
+```groovy
+├── build.gradle  
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar  
+│       └── gradle-wrapper.properties  
+├── gradlew  
+├── gradlew.bat  
+└── settings.gradle  
+```
+
+build.gradle--该脚本是用来配置当前文件的。
+
+gradle wrapper gradle-wrapper.jar--gradle打包可执行文件jar包
+
+gradle wrapper gradle-wrapper.properties --gradle打包配置参数
+
+gradlew--基于Unix系统的Gradle打包脚本
+
+gradlew.bat--基于Windows的打包脚本
+
+settings.gradle--配置Gradle构建的设置脚本
+
+注意点：
+gradle初始化可以生成不同类型的项目，甚至知道如何将简单的pom.xml(maven配置文件)转换成Gradle。
+
+我们看到这里，其实已经可以结束本指南了。但如果你想知道如何在项目中使用Gradle，那就继续吧。
+
+### 2.3 创建一个任务
+
+Gradle通过Groovy或者基于Kotlin的DSL提供的API接口用来创建和配置任务。一个项目包含了一组任务，每个任务都有一些基础的操作。
+
+Gradle提供了一个任务库，你可以在自己的项目中配置这些任务。比如，有一个叫做Copy的核心任务，这个任务的作用是将文件从一个位置复制到另一个位置。这个Copy任务非常有用（具体请
+
+[查看文档]: https://docs.gradle.org/4.10.3/dsl/org.gradle.api.tasks.Copy.html	"查看文档"
+
+），但是这里，再一次，让我们保持简洁性。按以下步骤执行操作：
+
+#### 2.3.1 创建一个src目录
+
+#### 2.3.2 在src目录中添加名为myfile.txt的文件，文件内容随意（甚至可以为空），但是为了方便还是添加简单的“Hello World”进去吧。
+
+#### 2.3.3 在你的build.gradle文件中，定义一个类型是Copy（注意大写字母）的任务并命名为copy，用来复制src目录到新的叫做dest的目录。（你不需要创建dest目录--任务会帮你创建的。）
+
+build.gradle
+
+```groovy
+task copy(type: Copy, group: "Custom", description: "Copies sources to the dest directory") {
+    from "src"
+    into "dest"
+}
+```
+
+在这里，group和description可以是任意你想写的东西。你甚至可以省略它，但是也会在之后要用到的任务报告中忽略它们。
+
+现在执行你的新copy任务:
+
+```
+❯ ./gradlew copy
+> Task :copy
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+```
+
+通过检查dest目录下是现在是否有一个新的叫做myfile.txt的文件，并且内容与src目录下的内容一致，来验证是否达到预期。
+
+### 2.4 应用插件
+
+Gradle包含一系列插件，并且在Gradle插件站点还可以找到更多的插件，发行版本中包含的插件之一是base插件。与叫做Zip的核心插件类型结合使用，你可以使用配置的名称和位置创建项目的压缩存档（zip archive）。
+
+使用插件语句，添加base插件到你的构建脚本文件中，确保在文件顶部添加plugins{}代码块。
+
+build.gradle
+
+```groovy
+plugins {
+    id "base"
+}
+
+... rest of the build file ...
+```
+
+现在添加任务将src目录压缩存档。
+
+build.gradle
+
+```groovy
+task zip(type: Zip, group: "Archive", description: "Archives sources in a zip file") {
+    from "src"
+    archiveFileName = "basic-demo-1.0.zip"
+}
+```
+
+base插件使用设置在build/distributions文件夹下创建了名为basic-demo-1.0.zip的归档文件。
+
+在这个例子中，简单运行了新的zip任务，并且按预期看到了生成的压缩文件。
+
+```
+❯ ./gradlew zip
+> Task :zip
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+```
+
+### 2.5 查看并调试构建
+
+让我们来看看在新项目中Gradle还能做什么。也可以查看
+
+[命令行接口全参考]: https://docs.gradle.org/4.10.3/userguide/command_line_interface.html	"命令行接口全参考"
+
+。
+
+#### 2.5.1 发现可使用的任务
+
+任务命令窗口列出了可以调用的Gradle任务，包括由基础插件添加的任务，和你刚刚添加的自定义任务。
+
+```
+❯ ./gradlew tasks
+
+> Task :tasks
+
+------------------------------------------------------------
+All tasks runnable from root project
+------------------------------------------------------------
+
+Archive tasks
+-------------
+zip - Archives sources in a zip file
+
+Build tasks
+-----------
+assemble - Assembles the outputs of this project.
+build - Assembles and tests this project.
+clean - Deletes the build directory.
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Custom tasks
+------------
+copy - Simply copies sources to a the build directory
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'basic-demo'.
+components - Displays the components produced by root project 'basic-demo'. [incubating]
+dependencies - Displays all dependencies declared in root project 'basic-demo'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'basic-demo'.
+dependentComponents - Displays the dependent components of components in root project 'basic-demo'. [incubating]
+help - Displays a help message.
+model - Displays the configuration model of root project 'basic-demo'. [incubating]
+projects - Displays the sub-projects of root project 'basic-demo'.
+properties - Displays the properties of root project 'basic-demo'.
+tasks - Displays the tasks runnable from root project 'basic-demo'.
+
+Verification tasks
+------------------
+check - Runs all checks.
+
+Rules
+-----
+Pattern: clean<TaskName>: Cleans the output files of a task.
+Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
+Pattern: upload<ConfigurationName>: Assembles and uploads the artifacts belonging to a configuration.
+
+To see all tasks and more detail, run gradlew tasks --all
+
+To see more detail about a task, run gradlew help --task <task>
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+```
+
+#### 2.5.2 分析和调试你的构建
+
+Gradle也提供了丰富的，基于页面的构建查看，叫做构建扫描。（build scan）
+
+具体可参考1.6
+
+通过使用--scan选项或者在项目中使用构建扫描插件，你就可以免费在
+
+[scans.gradle.com]: https://scans.gradle.com/?_ga=2.246928964.1574540686.1596420546-192503258.1592536201	"scans.gradle.com"
+
+中创建构架扫描了。发布构建扫描结果到scans.gradle.com，并将结果数据传输到Gradle的服务器上。[
+](javascript:void(0);) 
+
+通用领域
+
+生物医药
+
+
+
+To keep your data on your own servers, check out Gradle Enterprise.
+
+要将数据保存在自己的服务器上，请查看
+
+[Gradle Enterprise]: https://gradle.com/enterprise?_ga=2.75348690.1574540686.1596420546-192503258.1592536201	"Gradle Enterprise"
+
+。
